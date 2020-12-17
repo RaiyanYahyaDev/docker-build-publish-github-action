@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'src/**/VERSION'
+
 jobs:
   push:
     runs-on: ubuntu-latest
