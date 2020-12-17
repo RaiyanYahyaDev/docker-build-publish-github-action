@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'src/**/VERSION'
     workflow_dispatch:
 jobs:
   push:
@@ -19,19 +17,7 @@ jobs:
 
       - name: Build and push the images
         run: |
-          for versionFilePath in $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} ${{ github.event.before }} | grep "VERSION");
-          do
-            folder=${versionFilePath%"/VERSION"}
-            IMAGE_NAME=${folder##*/}
-
-            tmpName="image-$RANDOM"
-            docker build $folder --file $folder/Dockerfile --tag $tmpName
-            IMAGE_ID=${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.REPOSITORY }}/$IMAGE_NAME
-            VERSION=$(cat $versionFilePath)
-
-            echo IMAGE_ID=$IMAGE_ID
-            echo VERSION=$VERSION
-
-            docker tag $tmpName $IMAGE_ID:$VERSION
-            docker push $IMAGE_ID:$VERSION
-          done;
+              docker build -t "${{secrets.DOCKER_REGISTRY_URL}}"/"${{secrets.REPOSITORY}}":latest .
+              docker push "${{secrets.DOCKER_REGISTRY_URL}}"/"${{secrets.REPOSITORY}}":latest
+      - name: logout
+        run: docker logout "${{secrets.DOCKER_REGISTRY_URL}}"
