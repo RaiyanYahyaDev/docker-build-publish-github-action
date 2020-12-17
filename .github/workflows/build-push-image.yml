@@ -3,8 +3,9 @@ name: build-push-image
 on:
   push:
     branches:
-      - master
-
+      - main
+    paths:
+      - 'src/**/VERSION'
 jobs:
   push:
     runs-on: ubuntu-latest
