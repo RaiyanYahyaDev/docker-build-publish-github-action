@@ -13,11 +13,11 @@ jobs:
         with:
           fetch-depth: 0
       - name: Log into registry
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ secrets.DOCKER_REGISTRY_URL }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
+        #run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ secrets.DOCKER_REGISTRY_URL }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        run: docker login docker.pkg.github.com -u RaiyanYahyaDev -p ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push the images
         run: |
               docker build . --file Dockerfile --tag docker.pkg.github.com/buildpipe/raiyanyahya/test:latest
-              docker push docker.pkg.github.com/buildpipe/raiyanyahya/test:latest -p ${{ secrets.GITHUB_TOKEN }}
+              docker push docker.pkg.github.com/buildpipe/raiyanyahya/test:latest
       - name: logout
         run: docker logout "${{secrets.DOCKER_REGISTRY_URL}}"
