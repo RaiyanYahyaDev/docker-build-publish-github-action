@@ -12,11 +12,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      env:
-        CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/test:${{github.sha}}
-        CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/test:latest
-      run: |
-        docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
-        docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
-        docker push $CONTAINER_IMAGE
-        docker push $CONTAINER_IMAGE_LATEST
+      - name: builder
+        env:
+          CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/test:${{github.sha}}
+          CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/test:latest
+        run: |
+             docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
+             docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+             docker push $CONTAINER_IMAGE
+             docker push $CONTAINER_IMAGE_LATEST
