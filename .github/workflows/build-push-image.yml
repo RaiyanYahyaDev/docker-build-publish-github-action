@@ -17,11 +17,11 @@ jobs:
         #run: docker login docker.pkg.github.com -u RaiyanYahyaDev -p ${{ secrets.GITHUB_TOKEN }}
       - name: Build the Docker container image2
         run: | 
-             docker build -t docker.pkg.github.com/raiyanyahyadev/builpipe/test:latest .
+             docker build -t docker.pkg.github.com/raiyanyahyadev/docker-build-publish-github-action/test:latest .
       - name: docker images2
         run: |
              docker images
       - name: Push the image to Github Packages Repository2
         run: |
              docker login docker.pkg.github.com -u publisher -p "${{ secrets.GITHUB_TOKEN }}"
-             docker push docker.pkg.github.com/raiyanyahyadev/builpipe/test:latest
+             docker push docker.pkg.github.com/raiyanyahyadev/docker-build-publish-github-action/test:latest
