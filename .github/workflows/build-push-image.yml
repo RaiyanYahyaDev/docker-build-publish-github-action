@@ -5,6 +5,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+    CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/test:${{github.sha}}
+    CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/test:latest
 jobs:
   build-tag-push:
     runs-on: ubuntu-latest
@@ -13,9 +16,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: builder
-        env:
-          CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/test:${{github.sha}}
-          CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/test:latest
         run: |
              docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
              docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
