@@ -8,6 +8,7 @@ on:
 env:
     CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/test:${{github.sha}}
     CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/test:latest
+
 jobs:
   build-tag-push:
     runs-on: ubuntu-latest
