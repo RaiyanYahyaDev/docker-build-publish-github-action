@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    workflow_dispatch:
+  workflow_dispatch:
 jobs:
-  push:
+  build-tag-push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,8 +14,8 @@ jobs:
           fetch-depth: 0
       - name: builder
         env:
-          CONTAINER_IMAGE: docker.pkg.github.com/raiyanyahyadev/docker-build-publish-github-action/test:${{github.sha}}
-          CONTAINER_IMAGE_LATEST: docker.pkg.github.com/raiyanyahyadev/docker-build-publish-github-action/test:latest
+          CONTAINER_IMAGE: docker.pkg.github.com/${{github.repository}}/test:${{github.sha}}
+          CONTAINER_IMAGE_LATEST: docker.pkg.github.com/${{github.repository}}/test:latest
         run: |
              docker login -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
              docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
